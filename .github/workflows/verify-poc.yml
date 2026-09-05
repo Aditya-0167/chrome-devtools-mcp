@@ -1,0 +1,22 @@
+name: Verify PoC
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  run-poc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install deps
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Run PoC test
+        run: node --test build/tests/tools/click_js_eval_bypass.test.js
