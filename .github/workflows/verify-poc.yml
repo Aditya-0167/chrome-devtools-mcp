@@ -18,5 +18,12 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Debug - list files
+        run: |
+          echo "--- source test file exists? ---"
+          find tests -iname "*click_js_eval*"
+          echo "--- compiled output ---"
+          find build/tests -iname "*click*" 2>/dev/null || echo "build/tests/tools not found or empty of click files"
+          ls build/tests/tools/ || echo "build/tests/tools directory does not exist"
       - name: Run PoC test
         run: node --test build/tests/tools/click_js_eval_bypass.test.js
